@@ -6,133 +6,53 @@ import Foundation
 
 class Preferences
 {
-	private static var _Instance: Preferences?
-	private let _PreferencesFile: PreferencesFile
+    private static var _Instance: Preferences?
+    private let _PreferencesFile: PreferencesFile
 
-	private init()
-	{
-		self._PreferencesFile = PreferencesLoader.LoadSettings()
-	}
-	
-	static var Instance: Preferences
-	{
-		if _Instance == nil
-		{
-			_Instance = Preferences()
-		}
+    init(preferencesFile: PreferencesFile)
+    {
+        self._PreferencesFile = preferencesFile
 
-		return _Instance!
-	}
-	
-	public var LaunchOnLogin: Bool
-	{
-		get
-		{
-			if let __UnWrapped = self._PreferencesFile.LaunchOnLogin
-			{
-				return __UnWrapped
-			}
-			else
-			{
-				return false
-			}
-		}
-		set(value)
-		{
-			self._PreferencesFile.LaunchOnLogin = value
-		}
-	}
-	
-	public var ShowInMenuBar: Bool
-	{
-		get
-		{
-			if let __UnWrapped = self._PreferencesFile.ShowInMenuBar
-			{
-				return __UnWrapped
-			}
-			else
-			{
-				return true
-			}
-		}
-		set(value)
-		{
-			self._PreferencesFile.ShowInMenuBar = value
-		}
-	}
-	
-	public var ShowInDock: Bool
-	{
-		get
-		{
-			if let __UnWrapped = self._PreferencesFile.ShowInDock
-			{
-				return __UnWrapped
-			}
-			else
-			{
-				return false
-			}
-		}
-		set(value)
-		{
-			self._PreferencesFile.ShowInDock = value
-		}
-	}
-	
-	public var IsEnabled: Bool
-	{
-		get
-		{
-			if let __UnWrapped = self._PreferencesFile.IsEnabled
-			{
-				return __UnWrapped
-			}
-			else
-			{
-				return true
-			}
-		}
-		set(value)
-		{
-			self._PreferencesFile.IsEnabled = value
-		}
-	}
-	
-	public var InputDeviceName: String?
-	{
-		get
-		{
-			return self._PreferencesFile.InputDeviceName
-		}
-		set(value)
-		{
-			self._PreferencesFile.InputDeviceName = value
-		}
-	}
-	
-	public var AirPodsDeviceNames: [String]
-	{
-		get
-		{
-			if let __UnWrapped = self._PreferencesFile.AirPodsDeviceNames
-			{
-				return __UnWrapped
-			}
-			else
-			{
-				return []
-			}
-		}
-		set(value)
-		{
-			self._PreferencesFile.AirPodsDeviceNames = value
-		}
-	}
-	
-	public func WriteSettings()
-	{
-		PreferencesLoader.WriteSettings(preferences: self._PreferencesFile)
-	}
+        self.LaunchOnLogin = preferencesFile.LaunchOnLogin ?? true
+        self.ShowInMenuBar = preferencesFile.ShowInMenuBar ?? true
+        self.ShowInDock = preferencesFile.ShowInDock ?? false
+        self.IsEnabled = preferencesFile.IsEnabled ?? true
+        self.InputDeviceName = preferencesFile.InputDeviceName
+        self.AirPodsDeviceNames = preferencesFile.AirPodsDeviceNames ?? []
+        self.PriorityInputDeviceNames = preferencesFile.PriorityInputDeviceNames ?? []
+        self.PriorityOutputDeviceNames = preferencesFile.PriorityOutputDeviceNames ?? []
+    }
+    
+    static var Instance: Preferences
+    {
+        if _Instance == nil
+        {
+            _Instance = Preferences(preferencesFile: PreferencesLoader.LoadSettings())
+        }
+
+        return _Instance!
+    }
+    
+    public var LaunchOnLogin: Bool
+    public var ShowInMenuBar: Bool
+    public var ShowInDock: Bool
+    public var IsEnabled: Bool
+    public var InputDeviceName: String?
+    public var AirPodsDeviceNames: [String]
+    public var PriorityInputDeviceNames: [String]
+    public var PriorityOutputDeviceNames: [String]
+
+    public func WriteSettings() -> Void
+    {
+        self._PreferencesFile.LaunchOnLogin = self.LaunchOnLogin
+        self._PreferencesFile.ShowInMenuBar = self.ShowInMenuBar
+        self._PreferencesFile.ShowInDock = self.ShowInDock
+        self._PreferencesFile.IsEnabled = self.IsEnabled
+        self._PreferencesFile.InputDeviceName = self.InputDeviceName
+        self._PreferencesFile.AirPodsDeviceNames = self.AirPodsDeviceNames
+        self._PreferencesFile.PriorityInputDeviceNames = self.PriorityInputDeviceNames
+        self._PreferencesFile.PriorityOutputDeviceNames = self.PriorityOutputDeviceNames
+
+        PreferencesLoader.WriteSettings(preferences: self._PreferencesFile)
+    }
 }

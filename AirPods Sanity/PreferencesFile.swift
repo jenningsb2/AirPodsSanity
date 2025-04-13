@@ -10,10 +10,12 @@ import Foundation
 
 class PreferencesFile: Codable
 {
-	var LaunchOnLogin: Bool?
-	var ShowInMenuBar: Bool?
-	var ShowInDock: Bool?
-	var IsEnabled: Bool?
-	var InputDeviceName: String?
-	var AirPodsDeviceNames: [String]?
+    var LaunchOnLogin: Bool?
+    var ShowInMenuBar: Bool?
+    var ShowInDock: Bool?
+    var IsEnabled: Bool?
+    var InputDeviceName: String?
+    var AirPodsDeviceNames: [String]?
+    var PriorityInputDeviceNames: [String]?
+    var PriorityOutputDeviceNames: [String]?
 }
